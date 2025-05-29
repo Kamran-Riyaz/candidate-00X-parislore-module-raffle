@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Payment Success</title>
+</head>
+<body>
+  <h2>Processing your payment...</h2>
+  <p id="msg"></p>
+  <script>
+    const BASE_URL = "https://parislore-backend.onrender.com";
+    fetch(`${BASE_URL}/api/stripe-webhook`, {
+      method: "POST",
+    })
+    .then(res => res.json())
+    .then(data => {
+      if (data.success) {
+        document.getElementById("msg").textContent = `✅ You now have ${data.tickets} ticket(s)!`;
+      } else {
+        throw new Error();
+      }
+    })
+    .catch(() => {
+      document.getElementById("msg").textContent = "❌ Something went wrong.";
+    });
+  </script>
+</body>
+</html>
